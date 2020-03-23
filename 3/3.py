@@ -109,7 +109,7 @@ beta1 = (y1av1*(-1) + y2av2*(-1) + y3av3*1 + y4av4*1)/4
 beta2 = (y1av1*(-1) + y2av2*1 + y3av3*(-1) + y4av4*1)/4
 beta3 = (y1av1*(-1) + y2av2*1 + y3av3*1 + y4av4*(-1))/4
 
-t0 = abs(beta0)/sbs
+t0 = abs(beta0)/sbs                                     #Критерій Стьюдента для кожного коефіціента
 t1 = abs(beta1)/sbs
 t2 = abs(beta2)/sbs
 t3 = abs(beta3)/sbs
