@@ -3,14 +3,14 @@ import scipy.stats
 from random import randint
 from copy import deepcopy
 
-x1min = 10
-x1max = 40
-x2min = 10
-x2max = 60
-x3min = 10
-x3max = 15
-y_min = 210
-y_max = 238.3
+x1min = 15
+x1max = 45
+x2min = -35
+x2max = 15
+x3min = -35
+x3max = 5
+y_min = (x1min+x2min+x3min)/3
+y_max = (x1max+x2max+x3max)/3
 N = 8
 q = 0.05
 print("y=b0+b1*x1+b2*x2+b3*x3+b12*x1*x2+b13*x1*x3+b23*x2*x3+b123*x1*x2*x3+b11*x1^2+b22*x2^2+b33*x3^2")
