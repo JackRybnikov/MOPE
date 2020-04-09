@@ -118,8 +118,7 @@ def get_sum(*args):
             for obj in x_array:
                 sum_i_temp = 1
                 for i in range(len(args)):
-                    sum_i_temp *= obj[
-                        args[i] - 1]  # перемножаем все Х из кортежа, для квадрата дважды добавляем в кортеж Х
+                    sum_i_temp *= obj[args[i] - 1]
                 summa += sum_i_temp
     except:
         print("def error")
@@ -209,25 +208,15 @@ f3 = f1 * f2
 
 t_tab = scipy.stats.t.ppf((1 + (1 - q)) / 2, f3)
 print("t from table:", t_tab)
-if t0 < t_tab:
-    b0 = 0
-    print("t0:", t0, " t0<t_tab; b0=0")
-if t1 < t_tab:
-    b1 = 0
-    print("t1:", t1, " t1<t_tab; b1=0")
-if t2 < t_tab:
-    b2 = 0
-    print("t2:", t2, " t2<t_tab; b2=0")
-if t3 < t_tab:
-    b3 = 0
-    print("t3:", t3, " t3<t_tab; b3=0")
 
-y_hat = []
-for i in range(N):
-    y_hat.append(
-        b0 + b1 * x_array[i][0] + b2 * x_array[i][1] + b3 * x_array[i][2] + b12 * x_array[i][0] *
-        x_array[i][1] +
-        b13 * x_array[i][0] * x_array[i][2] + b123 * x_array[i][0] * x_array[i][1] * x_array[i][2])
+t_arr = np.array([t0, t1, t2, t3])
+b_arr = np.array([b0, b1, b2, b3])
+b_arr[t_arr < t_tab] = 0 
+
+b0,b1,b2,b3=b_arr
+
+y_hat = b0 + b1 * x_array[:,0] + b2 * x_array[:,1] + b3 * x_array[:,2] + b12 * x_array[:,0] * x_array[:,1] + b13 * x_array[:,0] * x_array[:,2] + b123 * x_array[:,0] * x_array[:,1] * x_array[:,2]
+
 d = 2
 f4 = N - d
 S2_ad = 0
