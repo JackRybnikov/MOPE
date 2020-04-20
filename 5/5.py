@@ -4,6 +4,7 @@ import sklearn.linear_model as lm
 from scipy.stats import f, t
 from functools import partial
 from pyDOE2 import ccdesign
+import time
 
 
 x_range = ((-10, 3), (-7, 2), (-1, 6))
@@ -35,11 +36,13 @@ def plan_matrix5(n, m):
     for i in range(n):
         for j in range(m):
             y[i][j] = random.randint(y_min, y_max)  # заповнюємо цю матрицю ігриками
-
+            
+    start = time.time()
     if n > 14:
         no = n - 14
     else:
         no = 1
+    print("Время проверки 1 = ", start-time.time())
     x_norm = ccdesign(3, center=(0, no))  # Central-Composite designs
     x_norm = np.insert(x_norm, 0, 1, axis=1)
 
@@ -51,11 +54,13 @@ def plan_matrix5(n, m):
     # матриця планування з нормовaними значеннями
     for i in range(len(x_norm)):
         for j in range(len(x_norm[i])):
+            start = time.time()
             if x_norm[i][j] < -1 or x_norm[i][j] > 1:
                 if x_norm[i][j] < 0:
                     x_norm[i][j] = -l
                 else:
                     x_norm[i][j] = l
+            print("Время проверки 2 = ", start-time.time())
 
     def add_sq_nums(x):  # рахуємо квадратні числа
         for i in range(len(x)):
@@ -74,10 +79,12 @@ def plan_matrix5(n, m):
      # матриця планування з натуральними значеннями факторів
     for i in range(8):
         for j in range(1, 4):
+            start = time.time()
             if x_norm[i][j] == -1:
                 x[i][j] = x_range[j - 1][0]
             else:
                 x[i][j] = x_range[j - 1][1]
+            print("Время проверки = ", start-time.time())
 
     for i in range(8, len(x)):
         for j in range(1, 3):
@@ -107,11 +114,12 @@ def find_coef(X, Y, norm=False):
     skm = lm.LinearRegression(fit_intercept=False)  # знаходимо коефіцієнти рівняння регресії
     skm.fit(X, Y)
     B = skm.coef_
-
+    start = time.time()
     if norm == 1:
         print('\nКоефіцієнти рівняння регресії з нормованими X:')
     else:
         print('\nКоефіцієнти рівняння регресії:')
+    print("Время проверки = ", start-time.time())
     B = [round(i, 3) for i in B]
     print(B)
     print('\nРезультат рівняння зі знайденими коефіцієнтами:\n', np.dot(X, B))
@@ -186,12 +194,14 @@ def check(X, Y, B, n, m):
 
     Gp = kriteriy_cochrana(Y, y_aver, n, m)
     print(f'Gp = {Gp}')
+    start = time.time()
     if Gp < G_kr:
         print(f'З ймовірністю {1-q} дисперсії однорідні.')
     else:
         print("Необхідно збільшити кількість дослідів")
         m += 1
         main(n, m)
+    print("Время проверки = ", start-time.time())
 
     ts = kriteriy_studenta(X[:, 1:], Y, y_aver, n, m)
     print('\nКритерій Стьюдента:\n', ts)
@@ -208,10 +218,12 @@ def check(X, Y, B, n, m):
     print(y_new)
 
     d = len(res)
+    start = time.time()
     if d >= n:
         print('\nF4 <= 0')
         print('')
         return
+    print("Время проверки = ", start-time.time())
     f4 = n - d
 
     F_p = kriteriy_fishera(Y, y_aver, y_new, n, m, d)
@@ -221,10 +233,12 @@ def check(X, Y, B, n, m):
     print('\nПеревірка адекватності за критерієм Фішера')
     print('Fp =', F_p)
     print('F_t =', f_t)
+    start = time.time()
     if F_p < f_t:
         print('Математична модель адекватна експериментальним даним')
     else:
         print('Математична модель не адекватна експериментальним даним')
+    print("Время проверки = ", start-time.time())
 
 
 def main(n, m):
