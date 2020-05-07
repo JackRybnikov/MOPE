@@ -2,6 +2,8 @@ import numpy as np
 import scipy.stats
 from random import randint
 from copy import deepcopy
+import lab666 as lalala
+import math
 
 x1min = 15
 x1max = 45
@@ -227,7 +229,8 @@ Fp = S2_ad / S2B
 Ft = scipy.stats.f.ppf(1 - q, f4, f3)
 print("Fp:", Fp)
 print("Ft:", Ft)
-if Fp > Ft:
-    print("Adequate precisely at 0,05")
-else:
-    print("Not adequate precisely at 0,05")
+#if Fp > Ft:
+print("Adequate precisely at 0,05")
+#else:
+print("Not adequate precisely at 0,05")
+lalala.main()
