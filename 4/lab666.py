@@ -132,94 +132,94 @@ def student(y_array, y_average_array):
     st = [n > tt for n in ts]
     return st
 
-def main():
-    N = 15
-    m = 2
-    l = 1.75
 
-    x1min = -30
-    x1max = 20
-    x01 = (x1min + x1max) / 2
-    xl1 = l*(x1max-x01)+x01
+N = 15
+m = 2
+l = 1.75
 
-    x2min = -70
-    x2max = -10 
-    x02 = (x2min + x2max) / 2
-    xl2 = l*(x2max-x02)+x02
+x1min = -30
+x1max = 20
+x01 = (x1min + x1max) / 2
+xl1 = l*(x1max-x01)+x01
 
-    x3min = -70
-    x3max = -40
-    x03 = (x3min + x3max) / 2
-    xl3 = l*(x3max-x03)+x03
+x2min = -70
+x2max = -10 
+x02 = (x2min + x2max) / 2
+xl2 = l*(x2max-x02)+x02
 
-    xn = [
-        [-1, -1, -1],
-        [-1, 1, 1],
-        [1, -1, 1],
-        [1, 1, -1],
-        [-1, -1, 1],
-        [-1, 1, -1],
-        [1, -1, -1],
-        [1, 1, 1],
-        [-l, 0, 0],
-        [l, 0, 0],
-        [0, -l, 0],
-        [0, l, 0],
-        [0, 0, -l],
-        [0, 0, l],
-        [0, 0, 0]
-    ]
+x3min = -70
+x3max = -40
+x03 = (x3min + x3max) / 2
+xl3 = l*(x3max-x03)+x03
 
-    x = [
-        [x1min, x2min, x3min],
-        [x1min, x2min, x3max],
-        [x1min, x2max, x3min],
-        [x1min, x2max, x3max],
-        [x1max, x2min, x3min],
-        [x1max, x2min, x3max],
-        [x1max, x2max, x3min],
-        [x1max, x2max, x3max],
-        [-xl1, x02, x03],
-        [xl1, x02, x03],
-        [x01, -xl2, x03],
-        [x01, xl2, x03],
-        [x01, x02, -xl3],
-        [x01, x02, xl3],
-        [x01, x02, x03]
-    ]
+xn = [
+    [-1, -1, -1],
+    [-1, 1, 1],
+    [1, -1, 1],
+    [1, 1, -1],
+    [-1, -1, 1],
+    [-1, 1, -1],
+    [1, -1, -1],
+    [1, 1, 1],
+    [-l, 0, 0],
+    [l, 0, 0],
+    [0, -l, 0],
+    [0, l, 0],
+    [0, 0, -l],
+    [0, 0, l],
+    [0, 0, 0]
+]
 
-    f_x1_x2_x3 = [
-        2.1,
-        1.7, #x1
-        6.8, #x2
-        6.6, #x3
-        3.0, #x1x2
-        0.1, #x1x3
-        4.5, #x2x3
-        1.8, #x1x2x3
-        9.5, #x1^2
-        1.0, #x2^2
-        3.9  #x3^2
-    ]
+x = [
+    [x1min, x2min, x3min],
+    [x1min, x2min, x3max],
+    [x1min, x2max, x3min],
+    [x1min, x2max, x3max],
+    [x1max, x2min, x3min],
+    [x1max, x2min, x3max],
+    [x1max, x2max, x3min],
+    [x1max, x2max, x3max],
+    [-xl1, x02, x03],
+    [xl1, x02, x03],
+    [x01, -xl2, x03],
+    [x01, xl2, x03],
+    [x01, x02, -xl3],
+    [x01, x02, xl3],
+    [x01, x02, x03]
+]
 
-    condition_cohren = False
-    condition_fisher = False
+f_x1_x2_x3 = [
+    2.1,
+    1.7, #x1
+    6.8, #x2
+    6.6, #x3
+    3.0, #x1x2
+    0.1, #x1x3
+    4.5, #x2x3
+    1.8, #x1x2x3
+    9.5, #x1^2
+    1.0, #x2^2
+    3.9  #x3^2
+]
+
+condition_cohren = False
+condition_fisher = False
 
 
-    while not condition_fisher:
-        while not condition_cohren:
-            print(f'm={m}')
-            xnatmod = [[x[i][j] for i in range(N)] for j in range(3)]
-            y = geny(N, m, f_x1_x2_x3)
-            y_average = [sum(y[i])/m for i in range(N)]
-            condition_cohren = cohren(y, y_average)
-            if not condition_cohren:
-                m += 1
-        b0 = calcb(y_average)
-        print('Коефіцієнти регресії:')
-        print(b0)
-        d = sum(student(y, y_average))
-        print(f'Кількість значущих коефіцієнтів:{d}')
-        condition_fisher = fisher(b0, N, m, d, y, y_average)
-        if condition_fisher:
-            print('Отримана математична модель адекватна експериментальним даним')
+while not condition_fisher:
+    while not condition_cohren:
+        print(f'm={m}')
+        xnatmod = [[x[i][j] for i in range(N)] for j in range(3)]
+        y = geny(N, m, f_x1_x2_x3)
+        y_average = [sum(y[i])/m for i in range(N)]
+        condition_cohren = cohren(y, y_average)
+        if not condition_cohren:
+            m += 1
+    b0 = calcb(y_average)
+    print('Коефіцієнти регресії:')
+    print(b0)
+    d = sum(student(y, y_average))
+    print(f'Кількість значущих коефіцієнтів:{d}')
+    condition_fisher = fisher(b0, N, m, d, y, y_average)
+    if condition_fisher:
+        print('Отримана математична модель адекватна експериментальним даним')
